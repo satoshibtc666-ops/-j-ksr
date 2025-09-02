@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Складской учет - Премиальная система управления</title>
+    
+    <!-- Modern Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/auth.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/inventory.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Загрузка системы складского учета...</p>
+        </div>
+    </div>
+
+    <!-- Auth Container -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <i class="fas fa-warehouse"></i>
+                    <h1>Складкомплекс</h1>
+                </div>
+                <p class="auth-subtitle">Премиальная система складского учета</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="username" class="form-label">Логин или Email</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-user form-input-icon"></i>
+                        <input type="text" id="username" name="username" class="form-input" placeholder="Введите логин или email" required>
+                    </div>
+                    <div class="form-error" id="username-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Пароль</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-lock form-input-icon"></i>
+                        <input type="password" id="password" name="password" class="form-input" placeholder="Введите пароль" required>
+                        <button type="button" class="toggle-password" id="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-error" id="password-error"></div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="remember-me" name="remember">
+                        <span class="checkbox-checkmark"></span>
+                        <span class="checkbox-label">Запомнить меня</span>
+                    </label>
+                    <a href="#" class="forgot-password" id="forgot-password-link">Забыли пароль?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large" id="login-btn">
+                    <span class="btn-text">Войти в систему</span>
+                    <span class="btn-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Вход в систему...
+                    </span>
+                </button>
+
+                <div class="form-divider">
+                    <span>или</span>
+                </div>
+
+                <button type="button" class="btn btn-secondary btn-large" id="demo-login-btn">
+                    <i class="fas fa-play-circle"></i>
+                    Демо-режим
+                </button>
+            </form>
+
+            <!-- Password Recovery Form -->
+            <form id="recovery-form" class="auth-form" style="display: none;">
+                <div class="form-back">
+                    <button type="button" class="back-btn" id="back-to-login">
+                        <i class="fas fa-arrow-left"></i>
+                        Назад к входу
+                    </button>
+                </div>
+
+                <div class="auth-header">
+                    <h2>Восстановление пароля</h2>
+                    <p>Введите email для восстановления доступа</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="recovery-email" class="form-label">Email</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-envelope form-input-icon"></i>
+                        <input type="email" id="recovery-email" name="email" class="form-input" placeholder="Введите ваш email" required>
+                    </div>
+                    <div class="form-error" id="recovery-email-error"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large">
+                    <i class="fas fa-paper-plane"></i>
+                    Отправить ссылку
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="app-container" style="display: none;">
+        <!-- Navigation Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="app-logo">
+                    <i class="fas fa-warehouse"></i>
+                    <span class="app-title">Складкомплекс</span>
+                </div>
+            </div>
+
+            <div class="header-center">
+                <div class="breadcrumb" id="breadcrumb">
+                    <span class="breadcrumb-item active">Главная</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="action-btn" id="notifications-btn" title="Уведомления">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <div class="user-menu" id="user-menu">
+                        <button class="user-menu-trigger" id="user-menu-trigger">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-info">
+                                <span class="user-name" id="current-user-name">Администратор</span>
+                                <span class="user-role" id="current-user-role">admin</span>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="user-menu-dropdown" id="user-menu-dropdown">
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-user-cog"></i>
+                                Профиль
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-cog"></i>
+                                Настройки
+                            </a>
+                            <div class="menu-divider"></div>
+                            <a href="#" class="menu-item" id="logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Выйти
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <nav class="app-sidebar" id="app-sidebar">
+            <div class="sidebar-content">
+                <ul class="nav-menu">
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link" data-view="warehouses">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Склады</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-view="inventory">
+                            <i class="fas fa-boxes"></i>
+                            <span>Товары</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-view="movements">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Движения</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-view="reports">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Отчеты</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-view="users">
+                            <i class="fas fa-users"></i>
+                            <span>Пользователи</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="app-main" id="app-main">
+            <div class="main-content" id="main-content">
+                <!-- Content will be loaded here dynamically -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Modal Container -->
+    <div id="modal-container" class="modal-container"></div>
+
+    <!-- Scripts -->
+    <script src="./js/utils.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/components.js"></script>
+    <script src="./js/warehouses.js"></script>
+    <script src="./js/inventory.js"></script>
+    <script src="./js/movements.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
